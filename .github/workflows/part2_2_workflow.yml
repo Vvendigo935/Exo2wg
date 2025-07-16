@@ -1,0 +1,24 @@
+name: Issue response auto
+
+
+on:
+    issues:
+        types: opened
+
+
+jobs:
+    reply:
+        runs-on: ubuntu-latest
+        permissions:
+            issues: write
+
+        steps:
+            - name: Issue Response
+              env:
+                GH_TOKEN: ${{ github.token }}
+                ISSUE_URL: ${{github.event.issue.html_url}}
+                ISSUE_AUTHOR: ${{github.event.issue.user.login}}
+                ISSUE_NAME: ${{github.event.issue.title}}
+                
+              run: | 
+                gh issue comment $ISSUE_URL --body "Hello $ISSUE_AUTHOR, we received your $ISSUE_NAME"
